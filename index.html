@@ -4,6 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les Cocktails d'Adrien & Manon</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="30 recettes de cocktails maison par Adrien & Manon. Rhum, Vodka, Gin, Tequila et cocktails pétillants. Découvrez nos recettes de Daiquiri, Cosmopolitan, Margarita et bien plus.">
+    <meta name="keywords" content="cocktails, recettes, rhum, vodka, gin, tequila, apéritif, daiquiri, cosmopolitan, margarita, mojito, spritz">
+    <meta name="author" content="Adrien & Manon">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Les Cocktails d'Adrien & Manon">
+    <meta property="og:description" content="30 recettes de cocktails maison. Rhum, Vodka, Gin, Tequila et cocktails pétillants.">
+    <meta property="og:locale" content="fr_FR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Les Cocktails d'Adrien & Manon">
+    <meta name="twitter:description" content="30 recettes de cocktails maison. Rhum, Vodka, Gin, Tequila et pétillants.">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#d4af37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Cocktails">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
@@ -156,7 +184,6 @@
             letter-spacing: 0.4em;
             text-transform: uppercase;
             color: var(--gold-light);
-            opacity: 0.8;
             margin-bottom: 1rem;
             opacity: 0;
             animation: fadeInUp 1s ease forwards 0.4s;
@@ -580,6 +607,157 @@
             opacity: 0.5;
         }
 
+        /* Barre d'outils : Recherche & Favoris */
+        .toolbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem clamp(1rem, 3vw, 2rem);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            min-width: 200px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1rem;
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--cream);
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: var(--gold-light);
+            opacity: 0.6;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .favorites-filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--cream);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .favorites-filter-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .favorites-filter-btn.active {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+        }
+
+        .favorites-filter-btn .heart-icon {
+            font-size: 1.1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .favorites-filter-btn.active .heart-icon {
+            transform: scale(1.1);
+        }
+
+        .favorites-filter-btn:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+        }
+
+        /* Bouton favori sur les cartes */
+        .favorite-btn {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            width: 36px;
+            height: 36px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--gold-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .favorite-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--gold);
+            transform: scale(1.1);
+        }
+
+        .favorite-btn.is-favorite {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+        }
+
+        .favorite-btn.is-favorite:hover {
+            background: var(--gold-light);
+        }
+
+        .favorite-btn:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 480px) {
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: none;
+            }
+
+            .favorites-filter-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .favorites-filter-btn .btn-text {
+                display: inline;
+            }
+        }
+
         /* Bouton retour en haut */
         .back-to-top {
             position: fixed;
@@ -815,6 +993,7 @@
         <h1 class="main-title">Adrien & Manon</h1>
         <p class="subtitle">Cocktails Maison</p>
         <p class="description">Here we go again c'est déjà la folie ici !</p>
+        <p class="description">Au besoin la chambre d'amis est juste à côté des toilettes ! (pas de dinguerie dans les toilettes svp)</p>
         <div class="art-deco-line"></div>
         <span class="date-badge">Ce Soir</span>
     </header>
@@ -833,6 +1012,24 @@
             <a href="#autres" class="nav-link" aria-label="Aller à la section Pétillants">Pétillants</a>
         </div>
     </nav>
+
+    <!-- Barre d'outils : Recherche & Favoris -->
+    <div class="toolbar">
+        <div class="search-container">
+            <input type="search" id="cocktail-search" class="search-input" placeholder="Rechercher un cocktail ou ingrédient..." aria-label="Rechercher un cocktail">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+        </div>
+        <button id="filter-favorites" class="favorites-filter-btn" aria-pressed="false" aria-label="Afficher uniquement mes favoris">
+            <span class="heart-icon" aria-hidden="true">♡</span>
+            <span class="btn-text">Mes favoris</span>
+        </button>
+    </div>
+
+    <noscript>
+        <div style="background: #722f37; color: #faf8f5; padding: 1rem; text-align: center; font-family: sans-serif;">
+            Ce site fonctionne mieux avec JavaScript activé. Activez JavaScript pour profiter de la recherche et des favoris.
+        </div>
+    </noscript>
 
     <main id="menu-principal" class="menu-container">
 
@@ -1439,15 +1636,42 @@
     </footer>
 
     <script>
+        // Configuration
+        const CONFIG = {
+            SCROLL_THRESHOLD: 500,
+            MOBILE_BREAKPOINT: '(max-width: 768px)'
+        };
+
+        // Media query pour mobile
+        const mobileQuery = window.matchMedia(CONFIG.MOBILE_BREAKPOINT);
+
         // Menu hamburger toggle
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
 
+        function closeMenu() {
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+            navLinks.classList.remove('open');
+        }
+
+        function openMenu() {
+            hamburger.setAttribute('aria-expanded', 'true');
+            hamburger.setAttribute('aria-label', 'Fermer le menu de navigation');
+            navLinks.classList.add('open');
+        }
+
         hamburger.addEventListener('click', () => {
             const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-            hamburger.setAttribute('aria-expanded', !isExpanded);
-            hamburger.setAttribute('aria-label', isExpanded ? 'Ouvrir le menu de navigation' : 'Fermer le menu de navigation');
-            navLinks.classList.toggle('open');
+            isExpanded ? closeMenu() : openMenu();
+        });
+
+        // Focus trap - Fermer menu avec Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+                closeMenu();
+                hamburger.focus();
+            }
         });
 
         // Smooth scroll for navigation
@@ -1458,10 +1682,8 @@
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
                 // Fermer le menu mobile après clic
-                if (window.innerWidth <= 768) {
-                    hamburger.setAttribute('aria-expanded', 'false');
-                    hamburger.setAttribute('aria-label', 'Ouvrir le menu de navigation');
-                    navLinks.classList.remove('open');
+                if (mobileQuery.matches) {
+                    closeMenu();
                 }
             });
         });
@@ -1517,7 +1739,7 @@
         const backToTop = document.querySelector('.back-to-top');
 
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
+            if (window.scrollY > CONFIG.SCROLL_THRESHOLD) {
                 backToTop.classList.add('visible');
             } else {
                 backToTop.classList.remove('visible');
@@ -1527,6 +1749,135 @@
         backToTop.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+
+        // ===== GÉNÉRATION DES BOUTONS FAVORIS =====
+        document.querySelectorAll('.cocktail-card').forEach((card, index) => {
+            const cocktailNumber = card.querySelector('.cocktail-number')?.textContent || String(index + 1).padStart(2, '0');
+            const cocktailId = `cocktail-${cocktailNumber}`;
+
+            const favoriteBtn = document.createElement('button');
+            favoriteBtn.className = 'favorite-btn';
+            favoriteBtn.dataset.cocktailId = cocktailId;
+            favoriteBtn.setAttribute('aria-label', 'Ajouter aux favoris');
+            favoriteBtn.setAttribute('aria-pressed', 'false');
+            favoriteBtn.innerHTML = '<span aria-hidden="true">♡</span>';
+
+            card.insertBefore(favoriteBtn, card.firstChild);
+        });
+
+        // ===== RECHERCHE DE COCKTAILS =====
+        const searchInput = document.getElementById('cocktail-search');
+        const cocktailCards = document.querySelectorAll('.cocktail-card');
+        const sectionElements = document.querySelectorAll('.section');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+
+                cocktailCards.forEach(card => {
+                    const name = card.querySelector('.cocktail-name')?.textContent.toLowerCase() || '';
+                    const ingredients = card.querySelector('.ingredients-list')?.textContent.toLowerCase() || '';
+                    const origin = card.querySelector('.cocktail-origin')?.textContent.toLowerCase() || '';
+
+                    const matches = name.includes(query) || ingredients.includes(query) || origin.includes(query);
+                    card.style.display = matches ? '' : 'none';
+
+                    if (matches) {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+
+                // Masquer les sections vides
+                sectionElements.forEach(section => {
+                    const hasVisibleCards = Array.from(section.querySelectorAll('.cocktail-card')).some(card => card.style.display !== 'none');
+                    section.style.display = hasVisibleCards ? '' : 'none';
+                });
+            });
+        }
+
+        // ===== SYSTÈME DE FAVORIS =====
+        const FAVORITES_KEY = 'cocktails-favoris';
+
+        function getFavorites() {
+            try {
+                return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveFavorites(favorites) {
+            localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+        }
+
+        function toggleFavorite(cocktailId) {
+            const favorites = getFavorites();
+            const index = favorites.indexOf(cocktailId);
+
+            if (index === -1) {
+                favorites.push(cocktailId);
+            } else {
+                favorites.splice(index, 1);
+            }
+
+            saveFavorites(favorites);
+            updateFavoriteButtons();
+        }
+
+        function updateFavoriteButtons() {
+            const favorites = getFavorites();
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const cocktailId = btn.dataset.cocktailId;
+                const isFavorite = favorites.includes(cocktailId);
+                btn.classList.toggle('is-favorite', isFavorite);
+                btn.setAttribute('aria-pressed', isFavorite);
+                btn.setAttribute('aria-label', isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris');
+                btn.innerHTML = `<span aria-hidden="true">${isFavorite ? '♥' : '♡'}</span>`;
+            });
+        }
+
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavorite(btn.dataset.cocktailId);
+            });
+        });
+
+        updateFavoriteButtons();
+
+        // Filtre favoris uniquement
+        const filterFavoritesBtn = document.getElementById('filter-favorites');
+        let showOnlyFavorites = false;
+
+        if (filterFavoritesBtn) {
+            filterFavoritesBtn.addEventListener('click', () => {
+                showOnlyFavorites = !showOnlyFavorites;
+                filterFavoritesBtn.classList.toggle('active', showOnlyFavorites);
+                filterFavoritesBtn.setAttribute('aria-pressed', showOnlyFavorites);
+
+                // Changer l'icône du bouton
+                const heartIcon = filterFavoritesBtn.querySelector('.heart-icon');
+                if (heartIcon) {
+                    heartIcon.textContent = showOnlyFavorites ? '♥' : '♡';
+                }
+
+                const favorites = getFavorites();
+                cocktailCards.forEach(card => {
+                    const cocktailId = card.querySelector('.favorite-btn')?.dataset.cocktailId;
+                    if (showOnlyFavorites) {
+                        card.style.display = favorites.includes(cocktailId) ? '' : 'none';
+                    } else {
+                        card.style.display = '';
+                    }
+                });
+
+                sectionElements.forEach(section => {
+                    const hasVisibleCards = Array.from(section.querySelectorAll('.cocktail-card')).some(card => card.style.display !== 'none');
+                    section.style.display = hasVisibleCards ? '' : 'none';
+                });
+            });
+        }
     </script>
 </body>
 </html>
