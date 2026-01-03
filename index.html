@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Cocktails d'Adrien & Manon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4e4ba;
+            --gold-dark: #996515;
+            --black: #0a0a0a;
+            --black-light: #1a1a1a;
+            --cream: #faf8f5;
+            --burgundy: #722f37;
+            --teal: #2d5a5a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: var(--black);
+            color: var(--cream);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Texture de fond */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 4rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before,
+        .header::after {
+            content: '✦';
+            position: absolute;
+            font-size: 1.5rem;
+            color: var(--gold);
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.5s;
+        }
+
+        .header::before { left: 10%; }
+        .header::after { right: 10%; }
+
+        .art-deco-line {
+            width: 100%;
+            max-width: 600px;
+            height: 3px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--gold) 20%, 
+                var(--gold) 80%, 
+                transparent 100%
+            );
+            position: relative;
+            opacity: 0;
+            animation: expandLine 1s ease forwards 0.3s;
+        }
+
+        .art-deco-line::before,
+        .art-deco-line::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+
+        .art-deco-line::before { left: 18%; }
+        .art-deco-line::after { right: 18%; }
+
+        .logo-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: block;
+            opacity: 0;
+            animation: dropIn 0.8s ease forwards;
+        }
+
+        .main-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.2s;
+        }
+
+        .subtitle {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.4s;
+        }
+
+        .date-badge {
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            border: 1px solid var(--gold);
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            color: var(--gold-light);
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.6s;
+        }
+
+        .date-badge::before,
+        .date-badge::after {
+            content: '—';
+            margin: 0 0.5rem;
+            opacity: 0.5;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 2rem;
+            background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.05));
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-link {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--cream);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover {
+            color: var(--gold);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Main content */
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            opacity: 0.6;
+        }
+
+        .section-divider {
+            width: 150px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 1.5rem auto 0;
+        }
+
+        /* Cocktail grid */
+        .cocktails-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Cocktail card */
+        .cocktail-card {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(10, 10, 10, 0.95));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .cocktail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .cocktail-card::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            bottom: 10px;
+            left: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            pointer-events: none;
+            transition: border-color 0.4s ease;
+        }
+
+        .cocktail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        .cocktail-card:hover::before {
+            opacity: 1;
+        }
+
+        .cocktail-card:hover::after {
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        .cocktail-number {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.5rem;
+            color: rgba(212, 175, 55, 0.1);
+            font-weight: 700;
+        }
+
+        .cocktail-badge {
+            display: inline-block;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.75rem;
+            background: var(--gold);
+            color: var(--black);
+            margin-bottom: 1rem;
+        }
+
+        .cocktail-badge.iba {
+            background: var(--burgundy);
+            color: var(--cream);
+        }
+
+        .cocktail-name {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .cocktail-origin {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--gold-light);
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .ingredients-title {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .ingredients-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .ingredients-list li {
+            font-size: 0.95rem;
+            color: var(--cream);
+            padding: 0.35rem 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ingredient-name {
+            color: var(--cream);
+        }
+
+        .ingredient-qty {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.8rem;
+            color: var(--gold-light);
+            opacity: 0.8;
+        }
+
+        .preparation {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--cream);
+            opacity: 0.8;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .preparation-title {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Note spéciale */
+        .note {
+            font-size: 0.8rem;
+            font-style: italic;
+            color: var(--gold-light);
+            opacity: 0.7;
+            margin-top: 1rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--gold);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            margin-top: 4rem;
+        }
+
+        .footer-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.2rem;
+            color: var(--gold-light);
+            margin-bottom: 1rem;
+        }
+
+        .footer-subtext {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--cream);
+            opacity: 0.5;
+        }
+
+        .footer-decoration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+
+        .footer-decoration span {
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.5;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dropIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes expandLine {
+            from {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+            to {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 3rem 1.5rem 2rem;
+            }
+
+            .header::before,
+            .header::after {
+                display: none;
+            }
+
+            .main-title {
+                letter-spacing: 0.1em;
+            }
+
+            .nav {
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+
+            .nav-link {
+                font-size: 0.65rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .menu-container {
+                padding: 1rem;
+            }
+
+            .cocktails-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .cocktail-card {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .cocktail-card {
+                break-inside: avoid;
+                border: 1px solid #ccc;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <span class="logo-icon">🍸</span>
+        <h1 class="main-title">Adrien & Manon</h1>
+        <p class="subtitle">Cocktails Maison</p>
+        <div class="art-deco-line"></div>
+        <span class="date-badge">Ce Soir</span>
+    </header>
+
+    <nav class="nav">
+        <a href="#rhum" class="nav-link">Rhum</a>
+        <a href="#vodka" class="nav-link">Vodka</a>
+        <a href="#gin" class="nav-link">Gin</a>
+        <a href="#tequila" class="nav-link">Tequila</a>
+        <a href="#autres" class="nav-link">Pétillants</a>
+    </nav>
+
+    <main class="menu-container">
+
+        <!-- RHUM -->
+        <section id="rhum" class="section">
+            <div class="section-header">
+                <span class="section-icon">🥃</span>
+                <h2 class="section-title">Rhum</h2>
+                <p class="section-subtitle">Blanc & Ambré</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="cocktails-grid">
+                <article class="cocktail-card">
+                    <span class="cocktail-number">01</span>
+                    <span class="cocktail-badge iba">IBA Classic</span>
+                    <h3 class="cocktail-name">Daiquiri</h3>
+                    <p class="cocktail-origin">Cuba, 1900</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Rhum blanc</span><span class="ingredient-qty">6 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Sirop de fraise</span><span class="ingredient-qty">1 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker avec glaçons. Secouer 15 secondes. Filtrer dans un verre à cocktail glacé.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">02</span>
+                    <span class="cocktail-badge">Classique</span>
+                    <h3 class="cocktail-name">Dark 'n' Stormy</h3>
+                    <p class="cocktail-origin">Bermudes</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Rhum ambré</span><span class="ingredient-qty">6 cl</span></li>
+                        <li><span class="ingredient-name">Ginger ale</span><span class="ingredient-qty">12 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">2 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Glaçons dans un highball. Verser ginger ale et citron vert. Faire flotter le rhum par-dessus.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">03</span>
+                    <span class="cocktail-badge">Floral</span>
+                    <h3 class="cocktail-name">Elderflower Rum Fizz</h3>
+                    <p class="cocktail-origin">Moderne</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Rhum blanc</span><span class="ingredient-qty">4 cl</span></li>
+                        <li><span class="ingredient-name">Crème de sureau</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">10 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker sans eau gazeuse. Filtrer sur glaçons. Compléter avec l'eau gazeuse.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">04</span>
+                    <span class="cocktail-badge">Fruité</span>
+                    <h3 class="cocktail-name">Cranberry Rum Punch</h3>
+                    <p class="cocktail-origin">Caraïbes</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Rhum blanc</span><span class="ingredient-qty">5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de cranberry</span><span class="ingredient-qty">8 cl</span></li>
+                        <li><span class="ingredient-name">Limonade</span><span class="ingredient-qty">10 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">1 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Verser tous les ingrédients dans un highball avec glaçons. Mélanger délicatement.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">05</span>
+                    <span class="cocktail-badge">Doux</span>
+                    <h3 class="cocktail-name">Peach Rum Fizz</h3>
+                    <p class="cocktail-origin">Moderne</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Rhum blanc ou ambré</span><span class="ingredient-qty">4 cl</span></li>
+                        <li><span class="ingredient-name">Crème de pêche</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">10 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker rhum, pêche et citron. Filtrer sur glaçons. Compléter avec eau gazeuse.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">06</span>
+                    <span class="cocktail-badge">Rafraîchissant</span>
+                    <h3 class="cocktail-name">Strawberry Rum Lemonade</h3>
+                    <p class="cocktail-origin">Estival</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Rhum blanc</span><span class="ingredient-qty">4 cl</span></li>
+                        <li><span class="ingredient-name">Sirop de fraise</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Limonade</span><span class="ingredient-qty">12 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Directement dans le verre avec glaçons. Remuer délicatement.
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- VODKA -->
+        <section id="vodka" class="section">
+            <div class="section-header">
+                <span class="section-icon">🍸</span>
+                <h2 class="section-title">Vodka</h2>
+                <p class="section-subtitle">Pure & Polyvalente</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="cocktails-grid">
+                <article class="cocktail-card">
+                    <span class="cocktail-number">07</span>
+                    <span class="cocktail-badge iba">IBA Classic</span>
+                    <h3 class="cocktail-name">Cosmopolitan</h3>
+                    <p class="cocktail-origin">New York, 1989</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Vodka</span><span class="ingredient-qty">4 cl</span></li>
+                        <li><span class="ingredient-name">Cointreau</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de cranberry</span><span class="ingredient-qty">3 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker avec glaçons 15 secondes. Filtrer dans un verre martini glacé. Zeste de citron.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">08</span>
+                    <span class="cocktail-badge">Simple</span>
+                    <h3 class="cocktail-name">Cape Codder</h3>
+                    <p class="cocktail-origin">Cape Cod, Massachusetts</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Vodka</span><span class="ingredient-qty">5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de cranberry</span><span class="ingredient-qty">12 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">1 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Highball avec glaçons. Verser vodka, compléter cranberry, presser citron vert.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">09</span>
+                    <span class="cocktail-badge">Coloré</span>
+                    <h3 class="cocktail-name">Blue Lagoon</h3>
+                    <p class="cocktail-origin">Harry's Bar, Paris, 1970s</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Vodka</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Curaçao bleu</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Limonade</span><span class="ingredient-qty">12 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker vodka et curaçao. Verser sur glaçons. Compléter avec limonade.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">10</span>
+                    <span class="cocktail-badge">Classique</span>
+                    <h3 class="cocktail-name">Vodka Tonic</h3>
+                    <p class="cocktail-origin">Universel</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Vodka</span><span class="ingredient-qty">5 cl</span></li>
+                        <li><span class="ingredient-name">Tonic</span><span class="ingredient-qty">15 cl</span></li>
+                        <li><span class="ingredient-name">Citron vert</span><span class="ingredient-qty">1 quartier</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Highball, glaçons, vodka, tonic. Presser citron au-dessus.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">11</span>
+                    <span class="cocktail-badge">Années 80</span>
+                    <h3 class="cocktail-name">Woo Woo</h3>
+                    <p class="cocktail-origin">USA, 1980s</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Vodka</span><span class="ingredient-qty">4,5 cl</span></li>
+                        <li><span class="ingredient-name">Crème de pêche</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Jus de cranberry</span><span class="ingredient-qty">12 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Highball avec glaçons. Verser tous les ingrédients. Remuer.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">12</span>
+                    <span class="cocktail-badge">Élégant</span>
+                    <h3 class="cocktail-name">Le Grand Fizz</h3>
+                    <p class="cocktail-origin">Londres, 2013</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Vodka</span><span class="ingredient-qty">4,5 cl</span></li>
+                        <li><span class="ingredient-name">Crème de sureau</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">10 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Grand verre à vin, glaçons. Verser tous les ingrédients. Remuer délicatement.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">13</span>
+                    <span class="cocktail-badge">Estival</span>
+                    <h3 class="cocktail-name">Elderflower Vodka Lemonade</h3>
+                    <p class="cocktail-origin">Moderne</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Vodka</span><span class="ingredient-qty">4,5 cl</span></li>
+                        <li><span class="ingredient-name">Crème de sureau</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Limonade</span><span class="ingredient-qty">12 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Highball avec glaçons. Verser vodka et sureau. Compléter avec limonade.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">14</span>
+                    <span class="cocktail-badge">Pétillant</span>
+                    <h3 class="cocktail-name">Vodka Fizz</h3>
+                    <p class="cocktail-origin">Variation moderne</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Vodka</span><span class="ingredient-qty">6 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron jaune</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Sirop de fraise</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">6 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker sans eau gazeuse 15 sec. Filtrer sur glaçons. Compléter eau gazeuse.
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- GIN -->
+        <section id="gin" class="section">
+            <div class="section-header">
+                <span class="section-icon">🍹</span>
+                <h2 class="section-title">Gin</h2>
+                <p class="section-subtitle">Botanique & Aromatique</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="cocktails-grid">
+                <article class="cocktail-card">
+                    <span class="cocktail-number">15</span>
+                    <span class="cocktail-badge iba">IBA Classic</span>
+                    <h3 class="cocktail-name">Gin Fizz</h3>
+                    <p class="cocktail-origin">XIXe siècle</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">4,5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron jaune</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Sirop de fraise</span><span class="ingredient-qty">1 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">8 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker tout sauf eau gazeuse. Filtrer dans tumbler haut. Compléter eau gazeuse. Sans glaçons.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">16</span>
+                    <span class="cocktail-badge iba">IBA Classic</span>
+                    <h3 class="cocktail-name">Tom Collins</h3>
+                    <p class="cocktail-origin">Londres, XIXe</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">6 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron jaune</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Sirop de fraise</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">10 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker gin, citron et sirop. Filtrer sur glaçons. Compléter eau gazeuse.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">17</span>
+                    <span class="cocktail-badge">Classique</span>
+                    <h3 class="cocktail-name">Gin Rickey</h3>
+                    <p class="cocktail-origin">Washington D.C., 1880s</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">4,5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">15 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Highball avec glaçons. Gin, citron vert. Compléter eau gazeuse. Remuer légèrement.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">18</span>
+                    <span class="cocktail-badge">Incontournable</span>
+                    <h3 class="cocktail-name">Gin Tonic</h3>
+                    <p class="cocktail-origin">Inde britannique</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">5 cl</span></li>
+                        <li><span class="ingredient-name">Tonic</span><span class="ingredient-qty">12 cl</span></li>
+                        <li><span class="ingredient-name">Citron vert ou jaune</span><span class="ingredient-qty">1 rondelle</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Grand verre, glaçons, gin, tonic. Garnir de citron.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">19</span>
+                    <span class="cocktail-badge">Élégant</span>
+                    <h3 class="cocktail-name">French Gimlet</h3>
+                    <p class="cocktail-origin">Variation moderne</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">4 cl</span></li>
+                        <li><span class="ingredient-name">Crème de sureau</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">2 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker avec glaçons 15+ secondes. Filtrer dans un verre coupe glacé.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">20</span>
+                    <span class="cocktail-badge">Floral</span>
+                    <h3 class="cocktail-name">Elderflower Collins</h3>
+                    <p class="cocktail-origin">Moderne</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">5 cl</span></li>
+                        <li><span class="ingredient-name">Crème de sureau</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron jaune</span><span class="ingredient-qty">2,5 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">10 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker gin, sureau et citron. Filtrer sur glaçons. Compléter eau gazeuse.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">21</span>
+                    <span class="cocktail-badge">Coloré</span>
+                    <h3 class="cocktail-name">Blue Lady</h3>
+                    <p class="cocktail-origin">Classique</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">4 cl</span></li>
+                        <li><span class="ingredient-name">Curaçao bleu</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron jaune</span><span class="ingredient-qty">2 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker avec glaçons 10 secondes. Filtrer dans un verre martini.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">22</span>
+                    <span class="cocktail-badge iba">IBA New Era</span>
+                    <h3 class="cocktail-name">Floradora</h3>
+                    <p class="cocktail-origin">Broadway, 1900</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">4,5 cl</span></li>
+                        <li><span class="ingredient-name">Crème de framboise</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Ginger ale</span><span class="ingredient-qty">10 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker gin, framboise, citron. Filtrer sur glaçons. Compléter ginger ale.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">23</span>
+                    <span class="cocktail-badge">Création</span>
+                    <h3 class="cocktail-name">Bikini Martini</h3>
+                    <p class="cocktail-origin">Dick Bradsell, 1990s</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Gin</span><span class="ingredient-qty">6 cl</span></li>
+                        <li><span class="ingredient-name">Curaçao bleu</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Crème de pêche</span><span class="ingredient-qty">1 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron jaune</span><span class="ingredient-qty">1 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker avec glaçons. Filtrer dans un verre martini glacé.
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- TEQUILA -->
+        <section id="tequila" class="section">
+            <div class="section-header">
+                <span class="section-icon">🌵</span>
+                <h2 class="section-title">Tequila</h2>
+                <p class="section-subtitle">Agave & Caractère</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="cocktails-grid">
+                <article class="cocktail-card">
+                    <span class="cocktail-number">24</span>
+                    <span class="cocktail-badge iba">IBA Classic</span>
+                    <h3 class="cocktail-name">Margarita</h3>
+                    <p class="cocktail-origin">Mexique, 1930s</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Tequila</span><span class="ingredient-qty">5 cl</span></li>
+                        <li><span class="ingredient-name">Cointreau</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Sel</span><span class="ingredient-qty">bord du verre</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Givrer le bord avec sel. Shaker 15 secondes. Filtrer dans le verre préparé.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">25</span>
+                    <span class="cocktail-badge">Coloré</span>
+                    <h3 class="cocktail-name">Blue Margarita</h3>
+                    <p class="cocktail-origin">Variation</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Tequila</span><span class="ingredient-qty">5 cl</span></li>
+                        <li><span class="ingredient-name">Curaçao bleu</span><span class="ingredient-qty">2,5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Sel</span><span class="ingredient-qty">optionnel</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker avec glaçons. Filtrer sur glaçons dans verre givré (optionnel).
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">26</span>
+                    <span class="cocktail-badge">Floral</span>
+                    <h3 class="cocktail-name">Elderflower Margarita</h3>
+                    <p class="cocktail-origin">Moderne</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Tequila</span><span class="ingredient-qty">6 cl</span></li>
+                        <li><span class="ingredient-name">Crème de sureau</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">3 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Shaker vigoureusement 30 secondes. Filtrer sur glaçons. Garnir citron vert.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">27</span>
+                    <span class="cocktail-badge">Fruité</span>
+                    <h3 class="cocktail-name">Cranberry Margarita</h3>
+                    <p class="cocktail-origin">Festif</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Tequila</span><span class="ingredient-qty">4,5 cl</span></li>
+                        <li><span class="ingredient-name">Cointreau</span><span class="ingredient-qty">1,5 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Jus de cranberry</span><span class="ingredient-qty">9 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Givrer le bord avec sel. Shaker 20 secondes. Filtrer sur glaçons.
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- PÉTILLANTS & AUTRES -->
+        <section id="autres" class="section">
+            <div class="section-header">
+                <span class="section-icon">🍾</span>
+                <h2 class="section-title">Pétillants</h2>
+                <p class="section-subtitle">Clairette de Die & Liqueurs</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="cocktails-grid">
+                <article class="cocktail-card">
+                    <span class="cocktail-number">28</span>
+                    <span class="cocktail-badge">Italien</span>
+                    <h3 class="cocktail-name">Hugo Spritz</h3>
+                    <p class="cocktail-origin">Tyrol du Sud, 2005</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Crème de sureau</span><span class="ingredient-qty">3 cl</span></li>
+                        <li><span class="ingredient-name">Clairette de Die</span><span class="ingredient-qty">12 cl</span></li>
+                        <li><span class="ingredient-name">Eau gazeuse</span><span class="ingredient-qty">4 cl</span></li>
+                        <li><span class="ingredient-name">Jus de citron vert</span><span class="ingredient-qty">1 trait</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Grand verre à vin. Crème de sureau, Clairette, eau gazeuse. Glaçons. Mélanger.
+                    </div>
+                    <p class="note">✦ La recette traditionnelle inclut de la menthe fraîche</p>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">29</span>
+                    <span class="cocktail-badge">Français</span>
+                    <h3 class="cocktail-name">Kir Pêche</h3>
+                    <p class="cocktail-origin">Variation du Kir Royal</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Crème de pêche</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Clairette de Die</span><span class="ingredient-qty">10 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Crème de pêche au fond d'une flûte. Compléter avec Clairette bien fraîche. Ne pas mélanger.
+                    </div>
+                </article>
+
+                <article class="cocktail-card">
+                    <span class="cocktail-number">30</span>
+                    <span class="cocktail-badge">Français</span>
+                    <h3 class="cocktail-name">Kir Framboise</h3>
+                    <p class="cocktail-origin">Variation du Kir Royal</p>
+                    <p class="ingredients-title">Ingrédients</p>
+                    <ul class="ingredients-list">
+                        <li><span class="ingredient-name">Crème de framboise</span><span class="ingredient-qty">2 cl</span></li>
+                        <li><span class="ingredient-name">Clairette de Die</span><span class="ingredient-qty">10 cl</span></li>
+                    </ul>
+                    <div class="preparation">
+                        <span class="preparation-title">Préparation</span>
+                        Crème de framboise au fond d'une flûte. Compléter avec Clairette bien fraîche. Servir immédiatement.
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-icon">✦</div>
+        <p class="footer-text">Bonne Soirée !</p>
+        <p class="footer-subtext">À consommer avec modération</p>
+        <div class="footer-decoration">
+            <span></span>
+            ◆
+            <span></span>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.cocktail-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
