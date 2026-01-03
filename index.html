@@ -53,10 +53,33 @@
             z-index: -1;
         }
 
+        /* Skip link pour accessibilité */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--black);
+            padding: 0.75rem 1.5rem;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.9rem;
+            text-decoration: none;
+            z-index: 1000;
+            border-radius: 0 0 4px 4px;
+            transition: top 0.3s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: 2px solid var(--cream);
+            outline-offset: 2px;
+        }
+
         /* Header */
         .header {
             text-align: center;
-            padding: 4rem 2rem 3rem;
+            padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem) clamp(2rem, 4vw, 3rem);
             position: relative;
             overflow: hidden;
         }
@@ -134,9 +157,19 @@
             text-transform: uppercase;
             color: var(--gold-light);
             opacity: 0.8;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             opacity: 0;
             animation: fadeInUp 1s ease forwards 0.4s;
+        }
+
+        .description {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--cream);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
         }
 
         .date-badge {
@@ -206,11 +239,78 @@
             width: 100%;
         }
 
+        .nav-link.active {
+            color: var(--gold);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Focus visible pour accessibilité clavier */
+        .nav-link:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+            color: var(--gold);
+        }
+
+        .nav-link:focus-visible::after {
+            width: 100%;
+        }
+
+        /* Menu hamburger mobile */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: 1px solid var(--gold);
+            cursor: pointer;
+            padding: 0;
+            z-index: 101;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--gold);
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger[aria-expanded="true"] span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+        }
+
+        .hamburger[aria-expanded="true"] span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger[aria-expanded="true"] span:nth-child(3) {
+            transform: rotate(-45deg) translate(4px, -4px);
+        }
+
+        .hamburger:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
         /* Main content */
         .menu-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: clamp(1rem, 3vw, 2rem);
         }
 
         /* Section */
@@ -241,7 +341,7 @@
 
         .section-title {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1.8rem;
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
             font-weight: 400;
             letter-spacing: 0.2em;
             color: var(--gold);
@@ -267,8 +367,8 @@
         /* Cocktail grid */
         .cocktails-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
         }
 
         /* Cocktail card */
@@ -348,7 +448,7 @@
 
         .cocktail-name {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1.4rem;
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
             font-weight: 400;
             color: var(--cream);
             margin-bottom: 0.5rem;
@@ -360,13 +460,13 @@
             font-size: 0.85rem;
             font-style: italic;
             color: var(--gold-light);
-            opacity: 0.7;
+            opacity: 0.85;
             margin-bottom: 1.5rem;
         }
 
         .ingredients-title {
             font-family: 'Josefin Sans', sans-serif;
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--gold);
@@ -407,14 +507,14 @@
             font-size: 0.9rem;
             line-height: 1.7;
             color: var(--cream);
-            opacity: 0.8;
+            opacity: 0.9;
             padding-top: 1rem;
             border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .preparation-title {
             font-family: 'Josefin Sans', sans-serif;
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--gold);
@@ -480,6 +580,53 @@
             opacity: 0.5;
         }
 
+        /* Bouton retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 99;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .back-to-top:focus-visible {
+            outline: 2px solid var(--cream);
+            outline-offset: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 44px;
+                height: 44px;
+            }
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -519,12 +666,16 @@
             }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header {
-                padding: 3rem 1.5rem 2rem;
+        /* Responsive - Tablette */
+        @media (max-width: 1024px) {
+            .header::before,
+            .header::after {
+                font-size: 1.2rem;
             }
+        }
 
+        /* Responsive - Mobile */
+        @media (max-width: 768px) {
             .header::before,
             .header::after {
                 display: none;
@@ -535,30 +686,106 @@
             }
 
             .nav {
-                gap: 0.5rem;
-                padding: 1rem;
+                flex-direction: column;
+                gap: 0;
+                padding: 0.75rem 1rem;
+            }
+
+            .hamburger {
+                display: flex;
+                margin: 0 auto;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
+                margin-top: 0;
+            }
+
+            .nav-links.open {
+                max-height: 300px;
+                opacity: 1;
+                margin-top: 1rem;
             }
 
             .nav-link {
-                font-size: 0.65rem;
-                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+                padding: 0.75rem 1rem;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             }
 
-            .menu-container {
-                padding: 1rem;
+            .nav-link:last-child {
+                border-bottom: none;
             }
 
             .cocktails-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
             }
 
             .cocktail-card {
                 padding: 1.5rem;
             }
+        }
 
-            .section-title {
-                font-size: 1.4rem;
+        /* Responsive - Petit mobile */
+        @media (max-width: 480px) {
+            .main-title {
+                letter-spacing: 0.05em;
+            }
+
+            .subtitle {
+                letter-spacing: 0.2em;
+                font-size: 0.85rem;
+            }
+
+            .nav {
+                gap: 0.4rem;
+                padding: 0.75rem;
+            }
+
+            .nav-link {
+                font-size: 0.65rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .section-header {
+                margin-bottom: 2rem;
+            }
+
+            .section-icon {
+                font-size: 2rem;
+            }
+
+            .cocktail-card {
+                padding: 1.25rem;
+            }
+
+            .cocktail-number {
+                font-size: 2rem;
+            }
+        }
+
+        /* Respect des préférences de mouvement réduit */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            html {
+                scroll-behavior: auto;
             }
         }
 
@@ -581,29 +808,39 @@
     </style>
 </head>
 <body>
+    <a href="#menu-principal" class="skip-link">Aller au contenu</a>
+
     <header class="header">
-        <span class="logo-icon">🍸</span>
+        <span class="logo-icon" aria-hidden="true">🍸</span>
         <h1 class="main-title">Adrien & Manon</h1>
         <p class="subtitle">Cocktails Maison</p>
+        <p class="description">Here we go again c'est déjà la folie ici !</p>
         <div class="art-deco-line"></div>
         <span class="date-badge">Ce Soir</span>
     </header>
 
-    <nav class="nav">
-        <a href="#rhum" class="nav-link">Rhum</a>
-        <a href="#vodka" class="nav-link">Vodka</a>
-        <a href="#gin" class="nav-link">Gin</a>
-        <a href="#tequila" class="nav-link">Tequila</a>
-        <a href="#autres" class="nav-link">Pétillants</a>
+    <nav class="nav" aria-label="Navigation des cocktails">
+        <button class="hamburger" aria-expanded="false" aria-controls="nav-links" aria-label="Ouvrir le menu de navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div id="nav-links" class="nav-links">
+            <a href="#rhum" class="nav-link" aria-label="Aller à la section Rhum">Rhum</a>
+            <a href="#vodka" class="nav-link" aria-label="Aller à la section Vodka">Vodka</a>
+            <a href="#gin" class="nav-link" aria-label="Aller à la section Gin">Gin</a>
+            <a href="#tequila" class="nav-link" aria-label="Aller à la section Tequila">Tequila</a>
+            <a href="#autres" class="nav-link" aria-label="Aller à la section Pétillants">Pétillants</a>
+        </div>
     </nav>
 
-    <main class="menu-container">
+    <main id="menu-principal" class="menu-container">
 
         <!-- RHUM -->
-        <section id="rhum" class="section">
+        <section id="rhum" class="section" aria-labelledby="titre-rhum">
             <div class="section-header">
-                <span class="section-icon">🥃</span>
-                <h2 class="section-title">Rhum</h2>
+                <span class="section-icon" aria-hidden="true">🥃</span>
+                <h2 id="titre-rhum" class="section-title">Rhum</h2>
                 <p class="section-subtitle">Blanc & Ambré</p>
                 <div class="section-divider"></div>
             </div>
@@ -718,10 +955,10 @@
         </section>
 
         <!-- VODKA -->
-        <section id="vodka" class="section">
+        <section id="vodka" class="section" aria-labelledby="titre-vodka">
             <div class="section-header">
-                <span class="section-icon">🍸</span>
-                <h2 class="section-title">Vodka</h2>
+                <span class="section-icon" aria-hidden="true">🍸</span>
+                <h2 id="titre-vodka" class="section-title">Vodka</h2>
                 <p class="section-subtitle">Pure & Polyvalente</p>
                 <div class="section-divider"></div>
             </div>
@@ -869,10 +1106,10 @@
         </section>
 
         <!-- GIN -->
-        <section id="gin" class="section">
+        <section id="gin" class="section" aria-labelledby="titre-gin">
             <div class="section-header">
-                <span class="section-icon">🍹</span>
-                <h2 class="section-title">Gin</h2>
+                <span class="section-icon" aria-hidden="true">🍹</span>
+                <h2 id="titre-gin" class="section-title">Gin</h2>
                 <p class="section-subtitle">Botanique & Aromatique</p>
                 <div class="section-divider"></div>
             </div>
@@ -1039,10 +1276,10 @@
         </section>
 
         <!-- TEQUILA -->
-        <section id="tequila" class="section">
+        <section id="tequila" class="section" aria-labelledby="titre-tequila">
             <div class="section-header">
-                <span class="section-icon">🌵</span>
-                <h2 class="section-title">Tequila</h2>
+                <span class="section-icon" aria-hidden="true">🌵</span>
+                <h2 id="titre-tequila" class="section-title">Tequila</h2>
                 <p class="section-subtitle">Agave & Caractère</p>
                 <div class="section-divider"></div>
             </div>
@@ -1122,10 +1359,10 @@
         </section>
 
         <!-- PÉTILLANTS & AUTRES -->
-        <section id="autres" class="section">
+        <section id="autres" class="section" aria-labelledby="titre-petillants">
             <div class="section-header">
-                <span class="section-icon">🍾</span>
-                <h2 class="section-title">Pétillants</h2>
+                <span class="section-icon" aria-hidden="true">🍾</span>
+                <h2 id="titre-petillants" class="section-title">Pétillants</h2>
                 <p class="section-subtitle">Clairette de Die & Liqueurs</p>
                 <div class="section-divider"></div>
             </div>
@@ -1186,11 +1423,15 @@
 
     </main>
 
+    <button class="back-to-top" aria-label="Retourner en haut de la page">
+        ↑
+    </button>
+
     <footer class="footer">
-        <div class="footer-icon">✦</div>
-        <p class="footer-text">Bonne Soirée !</p>
-        <p class="footer-subtext">À consommer avec modération</p>
-        <div class="footer-decoration">
+        <div class="footer-icon" aria-hidden="true">✦</div>
+        <p class="footer-text">Bonne soirée les copains !</p>
+        <p class="footer-subtext">A consommer avec modération (ou pas lol)</p>
+        <div class="footer-decoration" aria-hidden="true">
             <span></span>
             ◆
             <span></span>
@@ -1198,12 +1439,30 @@
     </footer>
 
     <script>
+        // Menu hamburger toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+            hamburger.setAttribute('aria-expanded', !isExpanded);
+            hamburger.setAttribute('aria-label', isExpanded ? 'Ouvrir le menu de navigation' : 'Fermer le menu de navigation');
+            navLinks.classList.toggle('open');
+        });
+
         // Smooth scroll for navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = document.querySelector(link.getAttribute('href'));
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Fermer le menu mobile après clic
+                if (window.innerWidth <= 768) {
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+                    navLinks.classList.remove('open');
+                }
             });
         });
 
@@ -1227,6 +1486,46 @@
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'all 0.6s ease';
             observer.observe(card);
+        });
+
+        // Indicateur de section active dans la navigation
+        const sections = document.querySelectorAll('.section');
+        const navLinksAll = document.querySelectorAll('.nav-link');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.getAttribute('id');
+                    navLinksAll.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '-100px 0px -50% 0px'
+        });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // Bouton retour en haut
+        const backToTop = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
