@@ -465,7 +465,6 @@
             padding: 0.25rem 0.75rem;
             background: var(--gold);
             color: var(--black);
-            margin-top: 2rem;
             margin-bottom: 1rem;
         }
 
@@ -1865,8 +1864,13 @@
                 }
 
                 const favorites = getFavorites();
-                cocktailCards.forEach(card => {
-                    const cocktailId = card.querySelector('.favorite-btn')?.dataset.cocktailId;
+                // Sélection fraîche pour s'assurer que les boutons favoris sont présents
+                const allCards = document.querySelectorAll('.cocktail-card');
+                const allSections = document.querySelectorAll('.section');
+
+                allCards.forEach(card => {
+                    const favoriteBtn = card.querySelector('.favorite-btn');
+                    const cocktailId = favoriteBtn?.dataset.cocktailId;
                     if (showOnlyFavorites) {
                         card.style.display = favorites.includes(cocktailId) ? '' : 'none';
                     } else {
@@ -1874,7 +1878,7 @@
                     }
                 });
 
-                sectionElements.forEach(section => {
+                allSections.forEach(section => {
                     const hasVisibleCards = Array.from(section.querySelectorAll('.cocktail-card')).some(card => card.style.display !== 'none');
                     section.style.display = hasVisibleCards ? '' : 'none';
                 });
